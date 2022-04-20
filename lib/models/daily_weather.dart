@@ -1,6 +1,6 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
-class Weather {
+class Weather with ChangeNotifier {
   var temp;
   var tempMax;
   var tempMin;
@@ -31,18 +31,18 @@ class Weather {
 
   factory Weather.fromJson(Map<String, dynamic> json) {
     return Weather(
-      lat: json['lat'],
-      long: json['lon'],
-      temp: json['current']['temp'],
-      feelsLike: json['current']['feels_like'],
-      pressure: json['current']['pressure'],
-      humidity: json['current']['humidity'],
-      windSpeed: json['current']['speed'],
-      description: json['weather'][0]['description'],
-      currently: json['weather'][0]['main'],
-      cityName: json['name'],
+      temp: json['main']['temp'],
       tempMax: json['main']['temp_max'],
       tempMin: json['main']['temp_min'],
+      lat: json['coord']['lat'],
+      long: json['coord']['lon'],
+      feelsLike: json['main']['feels_like'],
+      pressure: json['main']['pressure'],
+      description: json['weather'][0]['description'],
+      currently: json['weather'][0]['main'],
+      humidity: json['main']['humidity'],
+      windSpeed: json['wind']['speed'],
+      cityName: json['name'],
     );
   }
 }

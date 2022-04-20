@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_weather_app/models/location.dart';
 import 'package:flutter_weather_app/repositories/weather_repository.dart';
 import 'package:flutter_weather_app/views/pages/locations_page.dart';
 import 'package:flutter_weather_app/views/pages/weather_page.dart';
 import 'package:http/http.dart' as http;
 
 import 'bloc/bloc_observer.dart';
+import 'views/pages/home_page.dart';
 
 void main() {
   return BlocOverrides.runZoned(
@@ -29,9 +31,16 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const WeatherPage(),
-      routes: {
-        LocationsPage.routeName: (context) => const LocationsPage(),
+      home: HomePage(),
+      onGenerateRoute: (RouteSettings settings) {
+        switch (settings.name) {
+          case '/':
+            return HomePage.route();
+          case '/weather-page':
+            return WeatherPage.route(location: settings.arguments as Location);
+          case '/locations-page':
+            return LocationsPage.route();
+        }
       },
     );
   }

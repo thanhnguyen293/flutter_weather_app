@@ -1,57 +1,36 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_weather_app/views/pages/locations_page.dart';
+import 'package:flutter_weather_app/models/location.dart';
+import 'locations_page.dart';
 
-class WeatherPage extends StatefulWidget {
-  const WeatherPage({Key? key}) : super(key: key);
+class WeatherPage extends StatelessWidget {
+  static const String routeName = '/weather-page';
 
-  @override
-  State<WeatherPage> createState() => _WeatherPageState();
-}
+  static Route route({required Location location}) {
+    return MaterialPageRoute(
+      settings: const RouteSettings(name: routeName),
+      builder: (context) => WeatherPage(location: location),
+    );
+  }
 
-class _WeatherPageState extends State<WeatherPage> {
+  final Location location;
+  const WeatherPage({Key? key, required this.location}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: const Text('Weather App'),
-      //   actions: <Widget>[
-      //     IconButton(
-      //       onPressed: () {
-      //         //Navigate to Settings Screen
-      //       },
-      //       icon: const Icon(Icons.settings),
-      //     ),
-      //     IconButton(
-      //       onPressed: () {
-      //         //navigate to City Search Screen
-      //       },
-      //       icon: const Icon(Icons.search),
-      //     ),
-      //   ],
-      // ),
       body: SingleChildScrollView(
         child: SafeArea(
           child: Column(children: [
-            Text('Ho Chi Minh City'),
-          ]),
-        ),
-      ),
-      bottomNavigationBar: BottomAppBar(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            IconButton(
-              onPressed: () {},
-              icon: const Icon(Icons.settings_outlined),
+            Center(
+              child: Text(
+                location.name,
+                style: const TextStyle(
+                  fontSize: 32,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
             ),
-            const Text('Location'),
-            IconButton(
-              onPressed: () {
-                Navigator.of(context).pushNamed(LocationsPage.routeName);
-              },
-              icon: const Icon(Icons.menu),
-            )
-          ],
+          ]),
         ),
       ),
     );

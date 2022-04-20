@@ -8,7 +8,7 @@ class WeatherEvent extends Equatable {
 }
 
 class WeatherEventRequested extends WeatherEvent {
-  final String city;
+  final Location city;
   const WeatherEventRequested({required this.city});
 
   @override
@@ -16,7 +16,7 @@ class WeatherEventRequested extends WeatherEvent {
 }
 
 class WeatherEventRefresh extends WeatherEvent {
-  final String city;
+  final Location city;
   const WeatherEventRefresh({required this.city});
 
   @override

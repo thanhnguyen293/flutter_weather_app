@@ -2,10 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_weather_app/models/location.dart';
 import 'package:flutter_weather_app/repositories/data_service.dart';
+import 'package:flutter_weather_app/views/pages/weather_page.dart';
 
 class LocationsPage extends StatefulWidget {
   const LocationsPage({Key? key}) : super(key: key);
-  static String routeName = '/locations-page';
+  static const String routeName = '/locations-page';
+
+  static Route route() {
+    return MaterialPageRoute<void>(
+      settings: const RouteSettings(name: routeName),
+      builder: (_) => const LocationsPage(),
+    );
+  }
 
   @override
   State<LocationsPage> createState() => _LocationsPageState();
@@ -13,87 +21,90 @@ class LocationsPage extends StatefulWidget {
 
 class _LocationsPageState extends State<LocationsPage> {
   TextEditingController textEditingController = TextEditingController();
-  List<Location> location = [];
+  List<Location> locations = [];
 
   @override
   Widget build(BuildContext context) {
+    double size = MediaQuery.of(context).size.height;
     return Scaffold(
-      // appBar: AppBar(
-      //   title: const Text(
-      //     'Weather',
-      //     style: TextStyle(fontSize: 26),
-      //   ),
-      //   centerTitle: true,
-      //   elevation: 0,
-      //   backgroundColor: Colors.transparent,
-      //   foregroundColor: Colors.black,
-      // ),
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBar(
-            floating: true,
-            pinned: true,
-            snap: false,
-            centerTitle: true,
-            automaticallyImplyLeading: false,
-            elevation: 0,
-            title: const Text('Add Location'),
-            backgroundColor: Colors.white,
-            foregroundColor: Colors.black,
-            bottom: AppBar(
-              automaticallyImplyLeading: false,
-              backgroundColor: Colors.white,
-              foregroundColor: Colors.black,
-              elevation: 0,
-              title: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                decoration: BoxDecoration(
-                    color: const Color(0x73B4B4B4),
-                    borderRadius: BorderRadius.circular(15)),
-                child: TextField(
-                  decoration: const InputDecoration(
-                    hintText: 'search',
-                    // hintStyle: TextStyle(color: Colors.white),
-                    border: InputBorder.none,
-                    //fillColor: Colors.red,
-                  ),
-                  controller: textEditingController,
-                  onChanged: (String value) async {
-                    location = await DataService().fetchLocations(value);
-                    setState(() {});
-                  },
-                ),
+      appBar: AppBar(
+        title: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          decoration: BoxDecoration(
+              color: const Color(0x73B4B4B4),
+              borderRadius: BorderRadius.circular(15)),
+          child: TextField(
+            decoration: const InputDecoration(
+              hintText: 'search',
+              border: InputBorder.none,
+            ),
+            controller: textEditingController,
+            onChanged: (String value) async {
+              locations = await DataService().fetchLocations(value);
+              setState(() {});
+            },
+          ),
+        ),
+        //centerTitle: true,
+        elevation: 1,
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
+      ),
+      body: SafeArea(
+        child: Column(
+          children: [
+            // Padding(
+            //   padding: const EdgeInsets.symmetric(horizontal: 20),
+            //   child:
+            // ),
+            const SizedBox(height: 10),
+            Expanded(
+              child: ListView.builder(
+                itemCount: locations.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: InkWell(
+                          onTap: () {
+                            //navigate Weather Screen
+                            Navigator.of(context).pushNamed(
+                              WeatherPage.routeName,
+                              arguments: Location(
+                                name: locations[index].name,
+                                lat: locations[index].lat,
+                                lon: locations[index].lon,
+                                country: locations[index].country,
+                              ),
+                            );
+                          },
+                          child: Container(
+                            width: double.infinity,
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 15),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: Colors.black12,
+                            ),
+                            child: Text(
+                              locations[index].name +
+                                  ", " +
+                                  (locations[index].state ?? '') +
+                                  "${locations[index].state == null ? '' : ', '} " +
+                                  locations[index].country,
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 5),
+                    ],
+                  );
+                },
               ),
             ),
-            systemOverlayStyle: SystemUiOverlayStyle.dark,
-          ),
-          // Other Sliver Widgets
-          SliverList(
-            delegate: SliverChildListDelegate(
-              [
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  width: double.infinity,
-                  height: 600,
-                  child: ListView.builder(
-                    itemCount: location.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Container(
-                        height: 50,
-                        color: Colors.black12,
-                        child: Text(location[index].name +
-                            ", " +
-                            location[index].state.toString() +
-                            ", " +
-                            location[index].country),
-                      );
-                    },
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

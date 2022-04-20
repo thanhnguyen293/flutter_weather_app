@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_weather_app/models/location.dart';
 import 'package:flutter_weather_app/repositories/weather_repository.dart';
 
 import '../../models/weather.dart';

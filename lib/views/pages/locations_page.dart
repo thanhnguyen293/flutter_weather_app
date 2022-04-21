@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_weather_app/models/location.dart';
-import 'package:flutter_weather_app/repositories/data_service.dart';
+import 'package:flutter_weather_app/repositories/weather_repository.dart';
 import 'package:flutter_weather_app/views/pages/weather_page.dart';
 
 class LocationsPage extends StatefulWidget {
@@ -21,7 +21,7 @@ class LocationsPage extends StatefulWidget {
 
 class _LocationsPageState extends State<LocationsPage> {
   TextEditingController textEditingController = TextEditingController();
-  List<Location> locations = [];
+  List<LocationModel> locations = [];
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +40,7 @@ class _LocationsPageState extends State<LocationsPage> {
             ),
             controller: textEditingController,
             onChanged: (String value) async {
-              locations = await DataService().fetchLocations(value);
+              locations = await WeatherRepository().fetchLocations(value);
               setState(() {});
             },
           ),
@@ -71,10 +71,13 @@ class _LocationsPageState extends State<LocationsPage> {
                             //navigate Weather Screen
                             Navigator.of(context).pushNamed(
                               WeatherPage.routeName,
-                              arguments: Location(
+                              arguments: LocationModel(
                                 name: locations[index].name,
-                                lat: locations[index].lat,
-                                lon: locations[index].lon,
+                                coord: Coord(
+                                  lat: locations[index].coord.lat,
+                                  lon: locations[index].coord.lat,
+                                ),
+                                localName: locations[index].localName,
                                 country: locations[index].country,
                               ),
                             );

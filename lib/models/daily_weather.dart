@@ -1,48 +1,27 @@
 import 'package:flutter/material.dart';
 
-class Weather with ChangeNotifier {
-  var temp;
+class DailyWeather {
   var tempMax;
   var tempMin;
-  var lat;
-  var long;
-  var feelsLike;
-  var pressure;
+  var icon;
+  var date;
   var description;
-  var currently;
-  var humidity;
-  var windSpeed;
-  var cityName;
 
-  Weather({
-    this.temp,
-    this.tempMax,
-    this.tempMin,
-    this.lat,
-    this.long,
-    this.feelsLike,
-    this.pressure,
-    this.description,
-    this.currently,
-    this.humidity,
-    this.windSpeed,
-    this.cityName,
+  DailyWeather({
+    required this.tempMax,
+    required this.tempMin,
+    required this.icon,
+    required this.date,
+    required this.description,
   });
 
-  factory Weather.fromJson(Map<String, dynamic> json) {
-    return Weather(
-      temp: json['main']['temp'],
-      tempMax: json['main']['temp_max'],
-      tempMin: json['main']['temp_min'],
-      lat: json['coord']['lat'],
-      long: json['coord']['lon'],
-      feelsLike: json['main']['feels_like'],
-      pressure: json['main']['pressure'],
+  factory DailyWeather.fromJson(Map<String, dynamic> json) {
+    return DailyWeather(
       description: json['weather'][0]['description'],
-      currently: json['weather'][0]['main'],
-      humidity: json['main']['humidity'],
-      windSpeed: json['wind']['speed'],
-      cityName: json['name'],
+      icon: json['weather'][0]['icon'],
+      tempMax: json['temp']['max'],
+      tempMin: json['temp']['min'],
+      date: DateTime.fromMillisecondsSinceEpoch(json['dt'] * 1000, isUtc: true),
     );
   }
 }

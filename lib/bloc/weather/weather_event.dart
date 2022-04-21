@@ -8,17 +8,17 @@ class WeatherEvent extends Equatable {
 }
 
 class WeatherEventRequested extends WeatherEvent {
-  final Location city;
-  const WeatherEventRequested({required this.city});
+  final Coord coord;
+  const WeatherEventRequested({required this.coord});
 
   @override
-  List<Object?> get props => [city];
+  List<Object?> get props => [coord];
 }
 
 class WeatherEventRefresh extends WeatherEvent {
-  final Location city;
-  const WeatherEventRefresh({required this.city});
+  final Weather weather;
+  const WeatherEventRefresh({required this.weather});
 
   @override
-  List<Object?> get props => [city];
+  List<Object?> get props => [weather];
 }

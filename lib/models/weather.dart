@@ -1,48 +1,19 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter_weather_app/models/current_weather.dart';
+import 'package:flutter_weather_app/models/daily_weather.dart';
 
 class Weather {
-  var temp;
-  var tempMax;
-  var tempMin;
-  var lat;
-  var long;
-  var feelsLike;
-  var pressure;
-  var description;
-  var currently;
-  var humidity;
-  var windSpeed;
-  var cityName;
-
+  CurrentWeather currentWeather;
+  List<DailyWeather> dailyWeather;
   Weather({
-    this.temp,
-    this.tempMax,
-    this.tempMin,
-    this.lat,
-    this.long,
-    this.feelsLike,
-    this.pressure,
-    this.description,
-    this.currently,
-    this.humidity,
-    this.windSpeed,
-    this.cityName,
+    required this.currentWeather,
+    required this.dailyWeather,
   });
 
-  factory Weather.fromJson(Map<String, dynamic> json) {
-    return Weather(
-      lat: json['lat'],
-      long: json['lon'],
-      temp: json['current']['temp'],
-      feelsLike: json['current']['feels_like'],
-      pressure: json['current']['pressure'],
-      humidity: json['current']['humidity'],
-      windSpeed: json['current']['speed'],
-      description: json['weather'][0]['description'],
-      currently: json['weather'][0]['main'],
-      cityName: json['name'],
-      tempMax: json['main']['temp_max'],
-      tempMin: json['main']['temp_min'],
-    );
-  }
+  // factory Weather.fromJson(Map<String, dynamic> json) {
+  //   List<DailyWeather> dailyWeathers = [];
+
+  //   return Weather(
+  //       currentWeather: CurrentWeather.fromJson(json),
+  //       dailyWeather: dailyWeather);
+  // }
 }

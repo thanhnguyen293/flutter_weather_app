@@ -1,30 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_weather_app/views/widgets/blur_effect.dart';
 
-import 'locations_page.dart';
+import '../pages/locations_page.dart';
 
-class HomePage extends StatelessWidget {
-  static const String routeName = 'HomePage';
-
-  static Route route() {
-    return MaterialPageRoute<void>(
-      settings: const RouteSettings(name: routeName),
-      builder: (_) => const HomePage(),
-    );
-  }
-
-  const HomePage({Key? key}) : super(key: key);
+class BotAppBar extends StatelessWidget {
+  const BotAppBar({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: SafeArea(
-          child: Column(children: const [
-            Text('Ho Chi Minh City'),
-          ]),
-        ),
-      ),
-      bottomNavigationBar: BottomAppBar(
+    return BlurEffect(
+      borderRadiusValue: 0,
+      child: BottomAppBar(
+        color: Colors.transparent,
+        elevation: 0,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [

@@ -1,11 +1,11 @@
-import 'package:flutter_weather_app/models/weather.dart';
+import 'package:flutter_weather_app/models/current_weather.dart';
 
 class Forecast {
   final DateTime lastUpdated;
   final double longitude;
   final double latitude;
-  final List<Weather> daily;
-  final Weather current;
+  final List<CurrentWeather> daily;
+  final CurrentWeather current;
   final bool isDayTime;
   String city;
 

@@ -7,9 +7,9 @@
 - [x] Tìm kiếm vị trí
 - [x] thông tin thời tiết hiện tại,
 - [x] Thông tin thời tiết trong 7 ngày
+- [x] Tìm kiếm và lấy thông tin thời tiết vị trí khác
 ## Todo
 - [x] Thông tin thời tiết hàng giờ
-- [x] Tìm kiếm và lấy thông tin thời tiết vị trí khác
 
 ## Screenshots
-<img src="./screenshots/home_page.PNG" alt="drawing" width="200"/>
+<img src="./screenshots/home_page.png" alt="drawing" width="200"/>

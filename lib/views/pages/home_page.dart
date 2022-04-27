@@ -35,6 +35,7 @@ class HomePage extends StatelessWidget {
     //final selectedTab = context.select((HomeCubit cubit) => cubit.state.tab);
 
     final PageController pageController = PageController();
+
     return Scaffold(
       body: BlocBuilder<WeatherBloc, WeatherState>(
         builder: (context, state) {
@@ -60,7 +61,7 @@ class HomePage extends StatelessWidget {
           }
         },
       ),
-      bottomNavigationBar:const BotAppBar(),
+      bottomNavigationBar: const BotAppBar(),
     );
 
     //   return Scaffold(

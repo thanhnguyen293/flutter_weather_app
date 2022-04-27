@@ -26,8 +26,10 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
   ) async {
     emit(WeatherStateLoading());
     try {
+      print('locationModel');
       final LocationModel locationModel =
           await weatherRepository.getCurrentLocation();
+      print(locationModel);
       final Weather weather = await weatherRepository.getWeather(locationModel);
       final state = this.state;
       emit(WeatherStateSuccess(weather: List.from([])..add(weather)));
@@ -36,6 +38,7 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
       //       weather: List.from(state.weather)..add(weather)));
       // }
     } catch (e) {
+      print('error');
       emit(WeatherStateFailure());
     }
   }
@@ -50,10 +53,12 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
           await weatherRepository.getWeather(event.locationModel);
       //emit(WeatherStateSuccess(weather: weather));
       final state = this.state;
-      print(state.toString());
+
       if (state is WeatherStateSuccess) {
         emit(WeatherStateSuccess(
             weather: List.from(state.weather)..add(weather)));
+      } else {
+        emit(WeatherStateSuccess(weather: List.from([])..add(weather)));
       }
     } catch (e) {
       emit(WeatherStateFailure());

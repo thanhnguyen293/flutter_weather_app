@@ -12,4 +12,4 @@
 - [x] Thông tin thời tiết hàng giờ
 
 ## Screenshots
-<img src="./screenshots/home_page.png" alt="drawing" width="200"/>
+<img src="./screenshots/home_page.PNG" alt="drawing" width="200"/>

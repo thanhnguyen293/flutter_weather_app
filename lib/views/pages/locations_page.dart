@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_weather_app/bloc/weather/weather_bloc.dart';
 import 'package:flutter_weather_app/models/location.dart';
 import 'package:flutter_weather_app/repositories/weather_repository.dart';
-import 'package:flutter_weather_app/views/pages/weather_page.dart';
 
 class LocationsPage extends StatefulWidget {
   const LocationsPage({Key? key}) : super(key: key);
@@ -35,11 +35,15 @@ class _LocationsPageState extends State<LocationsPage> {
               borderRadius: BorderRadius.circular(15)),
           child: TextField(
             decoration: const InputDecoration(
-              hintText: 'search',
+              hintText: 'search location',
               border: InputBorder.none,
             ),
             controller: textEditingController,
-            onChanged: (String value) async {
+            // onChanged: (String value) async {
+            //   locations = await WeatherRepository().fetchLocations(value);
+            //   setState(() {});
+            // },
+            onSubmitted: (String value) async {
               locations = await WeatherRepository().fetchLocations(value);
               setState(() {});
             },
@@ -65,38 +69,37 @@ class _LocationsPageState extends State<LocationsPage> {
                   return Column(
                     children: [
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        child: InkWell(
-                          onTap: () {
-                            //navigate Weather Screen
-                            Navigator.of(context).pushNamed(
-                              WeatherPage.routeName,
-                              arguments: LocationModel(
-                                name: locations[index].name,
-                                coord: Coord(
-                                  lat: locations[index].coord.lat,
-                                  lon: locations[index].coord.lat,
+                        padding: const EdgeInsets.symmetric(horizontal: 5),
+                        child: Container(
+                          width: double.infinity,
+                          height: 50,
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: Colors.black12,
+                          ),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  (locations[index].name) +
+                                      ", " +
+                                      (locations[index].state ?? '') +
+                                      "${locations[index].state == null ? '' : ', '} " +
+                                      locations[index].country,
                                 ),
-                                localName: locations[index].localName,
-                                country: locations[index].country,
                               ),
-                            );
-                          },
-                          child: Container(
-                            width: double.infinity,
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 15),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: Colors.black12,
-                            ),
-                            child: Text(
-                              locations[index].name +
-                                  ", " +
-                                  (locations[index].state ?? '') +
-                                  "${locations[index].state == null ? '' : ', '} " +
-                                  locations[index].country,
-                            ),
+                              TextButton(
+                                onPressed: () {
+                                  context.read<WeatherBloc>().add(
+                                      WeatherEventAddLocation(
+                                          locationModel: locations[index]));
+                                },
+                                child: const Text(
+                                  'Add',
+                                ),
+                              )
+                            ],
                           ),
                         ),
                       ),

@@ -9,7 +9,7 @@ class TitleText extends StatelessWidget {
     required this.text,
     this.fontSize = 18,
     this.fontWeight = FontWeight.w500,
-    this.color = Colors.white,
+    this.color = Colors.black,
     Key? key,
   }) : super(key: key);
 

@@ -7,12 +7,16 @@ class WeatherEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class WeatherEventRequested extends WeatherEvent {
-  final Coord coord;
-  const WeatherEventRequested({required this.coord});
+class WeatherEventCurrentLocationRequested extends WeatherEvent {
+  const WeatherEventCurrentLocationRequested();
+}
+
+class WeatherEventAddLocation extends WeatherEvent {
+  final LocationModel locationModel;
+  const WeatherEventAddLocation({required this.locationModel});
 
   @override
-  List<Object?> get props => [coord];
+  List<Object?> get props => [locationModel];
 }
 
 class WeatherEventRefresh extends WeatherEvent {

@@ -5,19 +5,19 @@ class DailyWeather {
   var tempMin;
   var icon;
   var date;
-  var description;
+  var main;
 
   DailyWeather({
     required this.tempMax,
     required this.tempMin,
     required this.icon,
     required this.date,
-    required this.description,
+    required this.main,
   });
 
   factory DailyWeather.fromJson(Map<String, dynamic> json) {
     return DailyWeather(
-      description: json['weather'][0]['description'],
+      main: json['weather'][0]['main'],
       icon: json['weather'][0]['icon'],
       tempMax: json['temp']['max'],
       tempMin: json['temp']['min'],

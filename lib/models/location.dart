@@ -19,14 +19,14 @@ class LocationModel {
   final String name;
   final Coord coord;
   final String country;
-  final String localName;
+  //final String? localName;
   final String? state;
 
   LocationModel({
     required this.name,
     required this.country,
     required this.coord,
-    required this.localName,
+    //required this.localName,
     this.state,
   });
 
@@ -39,7 +39,8 @@ class LocationModel {
       ),
       // lat: json['lat'] as double,
       // lon: json['lon'] as double,
-      localName: json['local_names']['vi'] ?? json['local_names']['en'],
+      //localName: json['local_names']['en'],
+      //localName: json['local_names']['vi'] ?? json['local_names']['en'],
       country: json['country'] as String,
       state: json['state'],
     );

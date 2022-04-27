@@ -14,20 +14,47 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
   final WeatherRepository weatherRepository;
   WeatherBloc({required this.weatherRepository})
       : super(WeatherStateInitial()) {
-    on<WeatherEventRequested>(_onWeatherEventRequested);
+    on<WeatherEventCurrentLocationRequested>(
+        _onWeatherEventCurrentLocationRequested);
+    on<WeatherEventAddLocation>(_onWeatherEventRequested);
     on<WeatherEventRefresh>(_onWeatherEventRefresh);
   }
 
-  Future<void> _onWeatherEventRequested(
-    WeatherEventRequested event,
+  Future<void> _onWeatherEventCurrentLocationRequested(
+    WeatherEventCurrentLocationRequested event,
     Emitter<WeatherState> emit,
   ) async {
     emit(WeatherStateLoading());
     try {
-      print('object');
-      final Weather weather = await weatherRepository.getWeather(event.coord);
-      print(weather.currentWeather);
-      emit(WeatherStateSuccess(weather: weather));
+      final LocationModel locationModel =
+          await weatherRepository.getCurrentLocation();
+      final Weather weather = await weatherRepository.getWeather(locationModel);
+      final state = this.state;
+      emit(WeatherStateSuccess(weather: List.from([])..add(weather)));
+      // if (state is WeatherStateSuccess) {
+      //   emit(WeatherStateSuccess(
+      //       weather: List.from(state.weather)..add(weather)));
+      // }
+    } catch (e) {
+      emit(WeatherStateFailure());
+    }
+  }
+
+  Future<void> _onWeatherEventRequested(
+    WeatherEventAddLocation event,
+    Emitter<WeatherState> emit,
+  ) async {
+    //emit(WeatherStateLoading());
+    try {
+      final Weather weather =
+          await weatherRepository.getWeather(event.locationModel);
+      //emit(WeatherStateSuccess(weather: weather));
+      final state = this.state;
+      print(state.toString());
+      if (state is WeatherStateSuccess) {
+        emit(WeatherStateSuccess(
+            weather: List.from(state.weather)..add(weather)));
+      }
     } catch (e) {
       emit(WeatherStateFailure());
     }

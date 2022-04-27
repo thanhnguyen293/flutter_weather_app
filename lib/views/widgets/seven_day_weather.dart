@@ -34,12 +34,28 @@ class SevenDayWeather extends StatelessWidget {
               ),
             ),
             //const SizedBox(width: 20),
+
+            SizedBox(
+              height: 50,
+              width: 50,
+              child: FittedBox(
+                  child: Image.network(
+                      'http://openweathermap.org/img/wn/${icon}@2x.png')),
+            ),
+            //Image.network('http://openweathermap.org/img/wn/${icon}.png'),
             TitleText(
-                text:
-                    title[0].toUpperCase() + title.substring(1, title.length)),
-            Image.network('http://openweathermap.org/img/wn/${icon}.png'),
-            TitleText(
-              text: '${tempMin}° - ${tempMax}°',
+              text: '$tempMin - $tempMax°C',
+            ),
+            const SizedBox(width: 10),
+            SizedBox(
+              width: 80,
+              child: TitleText(
+                text: title[0].toUpperCase() +
+                    title.substring(
+                      1,
+                      title.length,
+                    ),
+              ),
             ),
           ],
         ),

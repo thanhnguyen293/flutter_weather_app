@@ -51,6 +51,7 @@ class CurrentWeather {
       cloulds: json['current']['cloulds'],
       uvi: json['current']['uvi'],
       visibility: json['current']['visibility'],
+      windDeg: json['current']['wind_deg'],
       windSpeed: json['current']['wind_speed'],
       description: json['current']['weather'][0]['description'],
       main: json['current']['weather'][0]['main'],

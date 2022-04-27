@@ -15,6 +15,7 @@ class BlurEffect extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //return child;
     return ClipRRect(
       borderRadius: BorderRadius.circular(borderRadiusValue),
       child: BackdropFilter(
